@@ -6,9 +6,10 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
       backgroundColor: const Color.fromARGB(255, 255, 247, 247),
       appBar: AppBar(
-        backgroundColor:  const Color.fromARGB(255, 94, 163, 220),
+        backgroundColor: Colors.transparent,
         title: Text(
           'Account ',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

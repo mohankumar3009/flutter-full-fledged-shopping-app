@@ -3,12 +3,14 @@ class Item {
   final double price;
   final String imageUrl;
   final String description;
+  final String category;
 
   Item({
     required this.name,
     required this.price,
     required this.imageUrl,
     required this.description,
+    this.category = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class Item {
       'price': price,
       'imageUrl': imageUrl,
       'description': description,
+      'category': category,
     };
   }
 
@@ -35,6 +38,7 @@ class Item {
       price: (map['price'] as num).toDouble(),
       imageUrl: map['imageUrl'],
       description: map['description'],
+      category: map['category'],
     );
   }
 }

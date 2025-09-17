@@ -15,7 +15,12 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [HomeScreen(), FavoriteScreen(), AccountScreen()];
+  final List<Widget> _pages = [
+    HomeScreen(),
+    FavoriteScreen(),
+    CartScreen(),
+    AccountScreen(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -32,15 +37,19 @@ class _BottomNavState extends State<BottomNav> {
         backgroundColor: const Color.fromARGB(255, 243, 238, 238),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: const Color.fromARGB(255, 94, 163, 220),
+        selectedItemColor: const Color.fromARGB(255, 22, 114, 190),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
+            icon: Icon(Icons.favorite_border_rounded),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Cart',
           ),
 
           BottomNavigationBarItem(

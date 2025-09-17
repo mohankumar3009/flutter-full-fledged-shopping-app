@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/screens/details_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/models/list_model.dart';
 
@@ -17,184 +19,385 @@ class _CartScreenState extends State<CartScreen> {
     final items = Provider.of<CartProvider>(context);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: const Color.fromARGB(255, 255, 247, 247),
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: Colors.transparent,
         title: Text(
-          'CART ITEMS',
-          style: TextStyle(
-            color: Colors.white,
+          'Cart',
+          style: GoogleFonts.poppins(
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),
         centerTitle: true,
+        actions: [
+          Container(
+            height: 38,
+            width: 38,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.white,
+            ),
+            child: IconButton(
+              onPressed: () {
+                items.clearCart();
+              },
+              icon: Icon(Icons.delete_outline_sharp, size: 23),
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
-      body: items.cartItems.isEmpty
-          ? const Center(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.network(
+              'https://tse2.mm.bing.net/th/id/OIP.u-4qDiYp1GZ8N8mgLhsrPQHaKX?rs=1&pid=ImgDetMain&o=7&rm=3',
+              fit: BoxFit.cover,
+            ),
+          ),
+          if (items.cartItems.isEmpty)
+            Center(
               child: Text(
                 'Your cart is Empty..',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.lato(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
-          : ListView.builder(
-              itemCount: items.cartItems.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Item item = items.cartItems[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsScreen(item: item),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    color: const Color.fromARGB(255, 243, 238, 238),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(
-                          height: 100,
-                          width: 100,
-                          child: Image.network(
-                            item.imageUrl,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+          else
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ListView.builder(
+                itemCount: items.cartItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Item item = items.cartItems[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsScreen(item: item),
                         ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      );
+                    },
+
+                    child: SizedBox(
+                      height: 200,
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 4,
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
                           children: [
-                            Text(
-                              item.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                            SizedBox(
+                              height: 192,
+                              width: 120,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: item.imageUrl,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    height: 100,
+                                    color: Colors.grey,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Color.fromARGB(
+                                          255,
+                                          22,
+                                          114,
+                                          190,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        height: 100,
+                                        color: Colors.grey,
+                                        child: Icon(
+                                          Icons.broken_image_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                ),
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Row(
+                            SizedBox(width: 10),
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 45,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      SizedBox(
-                                        height: 40,
-                                        width: 42,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor: Colors.white60,
-                                          ),
-
-                                          onPressed: () {
-                                            items.removeItem(item);
-                                          },
-                                          child: Icon(
-                                            Icons.remove,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        "${items.getItemQuantity(item)}",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 40,
-                                        width: 42,
-                                        child: TextButton(
-                                          style: TextButton.styleFrom(
-                                            backgroundColor: Colors.white60,
-                                          ),
-
-                                          onPressed: () {
-                                            items.addItem(item);
-                                          },
-                                          child: Icon(
-                                            Icons.add,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                SizedBox(height: 10),
+                                Text(
+                                  item.name,
+                                  style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                SizedBox(width: 40),
+                                SizedBox(height: 6),
                                 Text(
-                                  "\$${item.price}",
-                                  style: TextStyle(
-                                    fontSize: 23,
+                                  "\$${item.price}".toString(),
+                                  style: GoogleFonts.openSans(
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 17,
                                   ),
+                                ),
+
+                                TextButton.icon(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.edit, color: Colors.blue),
+                                  label: Text(
+                                    'Edit',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                  style: ButtonStyle(),
+
+                                  focusNode: FocusNode(),
+                                  autofocus: false,
+                                ),
+
+                                SizedBox(height: 20),
+
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      height: 45,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SizedBox(
+                                            height: 35,
+                                            width: 35,
+                                            child: TextButton(
+                                              style: TextButton.styleFrom(
+                                                iconSize: 15,
+                                                iconColor: Colors.grey,
+                                                overlayColor: Colors.blue,
+                                                foregroundColor: Colors.blue,
+                                                side: BorderSide(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+
+                                              onPressed: () {
+                                                items.removeItem(item);
+                                              },
+                                              child: Icon(
+                                                Icons.remove,
+                                                color: Colors.black,
+                                                size: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            "${items.getItemQuantity(item)}",
+                                            style: GoogleFonts.openSans(
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 35,
+                                            width: 35,
+                                            child: TextButton(
+                                              style: TextButton.styleFrom(
+                                                side: BorderSide(
+                                                  color: Colors.grey,
+                                                ),
+                                                foregroundColor: Colors.blue,
+                                                iconColor: Colors.grey,
+                                                iconSize: 15,
+                                                overlayColor: Colors.blue,
+                                                backgroundColor: Colors.white60,
+                                              ),
+
+                                              onPressed: () {
+                                                items.addItem(item);
+                                              },
+                                              child: Icon(
+                                                Icons.add,
+                                                color: Colors.black,
+                                                size: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? 70
+                                          : 550,
+                                    ),
+
+                                    IconButton(
+                                      onPressed: () {
+                                        items.removeItem(item);
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
+        ],
+      ),
       bottomNavigationBar: (items.cartItems.isNotEmpty)
           ? Container(
-              height: 80,
+              height: 330,
               decoration: BoxDecoration(
-                color: Colors.blue.shade600,
+                color: Colors.white12,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
               ),
-              padding: EdgeInsets.all(20),
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Text(
-                    "\$${items.totalPrice.toStringAsFixed(2)}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        hintText: 'Enter Promo Code',
+                        hintStyle: GoogleFonts.lato(color: Colors.grey),
+                        prefixIcon: Icon(
+                          Icons.discount_outlined,
+                          color: Colors.grey,
+                        ),
+                        suffixIcon: Icon(Icons.arrow_forward_ios_outlined),
+                        suffixIconColor: Colors.grey,
+                      ),
                     ),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 86, 223, 90),
-                    ),
-                    onPressed: () {
-                      items.clearCart();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Checkout Successfully.')),
-                      );
-                    },
-                    child: Text(
-                      'Checkout',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '    Sub Total',
+                        style: GoogleFonts.lato(
+                          color: Colors.grey[700],
+                          fontSize: 17,
+                        ),
+                      ),
+                      Text(
+                        "\$${items.subtotalPrice.toStringAsFixed(2)}    ",
+                        style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '    Shipping and Taxs',
+                        style: GoogleFonts.lato(
+                          color: Colors.grey[700],
+                          fontSize: 17,
+                        ),
+                      ),
+                      Text(
+                        "\$${items.taxAmount.toStringAsFixed(2)}    ",
+                        style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '    Total',
+                        style: GoogleFonts.lato(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "\$${items.totalAmount.toStringAsFixed(2)}    ",
+                        style: GoogleFonts.lato(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 60,
+                    width: 385,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(
+                          255,
+                          22,
+                          114,
+                          190,
+                        ),
+                      ),
+                      onPressed: () {
+                        items.clearCart();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Items purchased Successful'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'CheckOut',
+                        style: TextStyle(color: Colors.white, fontSize: 17),
                       ),
                     ),
                   ),

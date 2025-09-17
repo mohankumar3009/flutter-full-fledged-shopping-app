@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -64,7 +65,7 @@ class _CardWithDotsState extends State<CardWithDots> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 247, 247),
+      backgroundColor: Colors.transparent,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -97,10 +98,27 @@ class _CardWithDotsState extends State<CardWithDots> {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(16),
                           ),
-                          child: Image.network(
-                            product["image"],
+                          child: CachedNetworkImage(
+                            imageUrl: product["image"],
                             fit: BoxFit.cover,
                             width: double.infinity,
+                            placeholder: (context, url) => Container(
+                              width: double.infinity,
+                              color: Colors.grey,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color.fromARGB(255, 22, 114, 190),
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              width: double.infinity,
+                              color: Colors.grey,
+                              child: const Icon(
+                                Icons.broken_image_outlined,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -116,7 +134,7 @@ class _CardWithDotsState extends State<CardWithDots> {
             count: products.length,
             effect: ExpandingDotsEffect(
               paintStyle: PaintingStyle.fill,
-              activeDotColor: const Color.fromARGB(255, 94, 163, 220),
+              activeDotColor: const Color.fromARGB(255, 22, 114, 190),
               dotColor: Colors.grey.shade300,
               dotHeight: 10,
               dotWidth: 10,

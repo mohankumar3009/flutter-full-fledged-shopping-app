@@ -4,18 +4,25 @@ import 'package:flutter_application/models/list_model.dart';
 
 class CartProvider extends ChangeNotifier {
   final List<Item> _cartItems = [];
-  final Map<String, int> _quantities = {}; // we using the item.name for the checking the quantitiy and avoiding the duplicated list items..
+  final Map<String, int> _quantities =
+      {}; // we using the item.name for the checking the quantitiy and avoiding the duplicated list items..
   int _counter = 0;
 
   UnmodifiableListView<Item> get cartItems => UnmodifiableListView(_cartItems);
   int get counter => _counter;
 
-  double get totalPrice => _cartItems.fold<double>(
-        0.0,
-        (prev, item) => prev + item.price * (_quantities[item.name] ?? 1),
-      );
+  double get subtotalPrice => _cartItems.fold<double>(
+    0.0,
+    (prev, item) => prev + item.price * (_quantities[item.name] ?? 1),
+  );
 
-  void addItem(Item item) {
+  double taxRate = 0.18;
+
+  double get taxAmount => taxRate * subtotalPrice;
+
+  double get totalAmount => subtotalPrice + taxAmount;
+
+  void  addItem(Item item) {
     if (_quantities.containsKey(item.name)) {
       _quantities[item.name] = _quantities[item.name]! + 1;
     } else {
