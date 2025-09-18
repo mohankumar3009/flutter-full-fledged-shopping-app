@@ -9,6 +9,7 @@ class AccountScreen extends StatelessWidget {
       extendBodyBehindAppBar: false,
       backgroundColor: const Color.fromARGB(255, 255, 247, 247),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: Text(
           'Account ',

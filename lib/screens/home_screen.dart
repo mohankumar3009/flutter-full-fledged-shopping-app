@@ -188,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: SizedBox(

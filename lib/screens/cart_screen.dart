@@ -297,6 +297,7 @@ class _CartScreenState extends State<CartScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
