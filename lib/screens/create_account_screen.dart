@@ -32,26 +32,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue[50],
+      backgroundColor: const Color.fromARGB(255, 22, 114, 190),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 100),
+            SizedBox(height: 30),
+            SizedBox(
+              height: 120,
+              width: 120,
+
+              child: Image.asset(
+                'assets/account_creation_images/create account.png',
+              ),
+            ),
             Center(
               child: Text(
                 'Create an Account',
                 style: GoogleFonts.nunitoSans(
-                  fontSize: 35,
+                  fontSize: 23,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
             SizedBox(height: 10),
             Container(
-              height: 550,
-              width: 350,
+              height: 730,
+              width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
                 color: Colors.white,
               ),
               child: SingleChildScrollView(
@@ -66,7 +78,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Text(
                             'Name',
                             style: GoogleFonts.lato(
-                              fontSize: 25,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -107,7 +119,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Text(
                             'Email',
                             style: GoogleFonts.lato(
-                              fontSize: 25,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -155,7 +167,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Text(
                             'Password',
                             style: GoogleFonts.lato(
-                              fontSize: 25,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -222,7 +234,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Text(
                             'Confirm Password',
                             style: GoogleFonts.lato(
-                              fontSize: 25,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -273,73 +285,143 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 5),
+                      SizedBox(
+                        height: 65,
+                        width: 380,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            backgroundColor: const Color.fromARGB(
+                              255,
+                              22,
+                              114,
+                              190,
+                            ),
+                          ),
+
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              debugPrint(
+                                '${_nameController.text} your account created successfully',
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            }
+                          },
+                          child: Text(
+                            'Sign Up',
+                            style: GoogleFonts.nunitoSans(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(color: Colors.grey, thickness: 1),
+                          ),
+                          Text(
+                            ' Or Signup with ',
+                            style: GoogleFonts.inter(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(color: Colors.grey, thickness: 1),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/login_images/google_355998.png',
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/login_images/social_10091663.png',
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/login_images/facebook_2626269.png',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Sign In',
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color: Color.fromARGB(255, 22, 114, 190),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 15),
-            SizedBox(
-              height: 65,
-              width: 350,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: const Color.fromARGB(255, 22, 114, 190),
-                ),
-
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    debugPrint(
-                      '${_nameController.text} your account created successfully',
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  }
-                },
-                child: Text(
-                  'Sign Up',
-                  style: GoogleFonts.nunitoSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  'Already have an account?',
-                  style: GoogleFonts.inter(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                  child: Text(
-                    'Sign In',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 22, 114, 190),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),

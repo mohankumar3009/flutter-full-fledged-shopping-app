@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/screens/details_screen.dart';
+import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/models/list_model.dart';
@@ -22,6 +23,16 @@ class _CartScreenState extends State<CartScreen> {
       extendBodyBehindAppBar: true,
       backgroundColor: const Color.fromARGB(255, 255, 247, 247),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BottomNav()),
+            );
+          },
+          icon: Icon(Icons.arrow_back_ios_new_sharp),
+        ),
         backgroundColor: Colors.transparent,
         title: Text(
           'Cart',
