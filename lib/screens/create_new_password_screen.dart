@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_application/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CreateAccountScreen extends StatefulWidget {
-  const CreateAccountScreen({super.key});
+class CreateNewPasswordScreen extends StatefulWidget {
+  const CreateNewPasswordScreen({super.key});
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  State<CreateNewPasswordScreen> createState() =>
+      _CreateNewPasswordScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -36,28 +36,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             SizedBox(
-              height: 120,
-              width: 120,
+              height: 180,
+              width: 180,
 
               child: Image.asset(
-                'assets/account_creation_images/create account.png',
+                'assets/forgot_password_images/phishing-account-concept.png',
               ),
             ),
             Center(
               child: Text(
-                'Create an Account',
+                'Create New Password',
                 style: GoogleFonts.nunitoSans(
-                  fontSize: 23,
+                  fontSize: 27,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
             ),
             SizedBox(height: 10),
+            Text(
+              'Enter your new password below.',
+              style: GoogleFonts.inter(fontSize: 17, color: Colors.white),
+            ),
+
+            SizedBox(height: 30),
+
             Container(
-              height: 730,
+              height: 640,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -76,96 +83,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Name',
-                            style: GoogleFonts.lato(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.name,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          controller: _nameController,
-                          autofocus: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter your name';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            hintText: 'Name',
-                            hintStyle: GoogleFonts.lato(color: Colors.grey),
-                            prefixIcon: Icon(
-                              Icons.person_outline_sharp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Email',
-                            style: GoogleFonts.lato(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          autofocus: true,
-
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          controller: _emailController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter Your Email';
-                            } else if (value.startsWith(RegExp(r'[A-Z]'))) {
-                              return 'Please Enter a Valid Email';
-                            } else if (!RegExp(
-                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                            ).hasMatch(value)) {
-                              return 'Please Enter a Valid Email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            hintText: 'Email',
-                            hintStyle: GoogleFonts.lato(color: Colors.grey),
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Password',
+                            'New Password',
                             style: GoogleFonts.lato(
                               fontSize: 23,
                               fontWeight: FontWeight.bold,
@@ -183,7 +101,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           controller: _passwordController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return ':Please Enter Your Password';
+                              return 'Please Enter Your Password';
                             } else if (value.length < 8) {
                               return 'Your Password Must Be Atleast 8 Characters';
                             } else if (!RegExp(
@@ -205,7 +123,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            hintText: 'Password',
+                            hintText: 'New Password',
                             hintStyle: GoogleFonts.lato(color: Colors.grey),
                             prefixIcon: Icon(
                               Icons.key_sharp,
@@ -298,9 +216,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              debugPrint(
-                                '${_nameController.text} your account created successfully',
-                              );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -310,7 +225,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             }
                           },
                           child: Text(
-                            'Sign Up',
+                            'Save Password',
                             style: GoogleFonts.nunitoSans(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -318,99 +233,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Divider(color: Colors.grey, thickness: 1),
-                          ),
-                          Text(
-                            ' Or Signup with ',
-                            style: GoogleFonts.inter(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(color: Colors.grey, thickness: 1),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/login_images/google_355998.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/login_images/social_10091663.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/login_images/facebook_2626269.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Already have an account?',
-                            style: GoogleFonts.inter(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Sign In',
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                color: Color.fromARGB(255, 22, 114, 190),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),

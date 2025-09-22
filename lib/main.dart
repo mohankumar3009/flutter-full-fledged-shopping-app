@@ -4,7 +4,9 @@ import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/login_screen.dart';
 
+// ignore: unused_import
 import 'package:flutter_application/widgets/bottom_nav.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -33,8 +35,39 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: GoogleFonts.poppins(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        textTheme: TextTheme(
+          titleMedium: GoogleFonts.lato(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          titleSmall: GoogleFonts.lato(
+            color: const Color.fromARGB(255, 22, 114, 190),
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyMedium: GoogleFonts.openSans(
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+          ),
+          
+           
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 22, 114, 190),
+          ),
+        ),
       ),
+
       home: const LoginScreen(),
     ),
   );

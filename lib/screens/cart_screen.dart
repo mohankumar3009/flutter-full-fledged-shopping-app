@@ -18,6 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final items = Provider.of<CartProvider>(context);
+    final ThemeData theme = Theme.of(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -34,14 +35,7 @@ class _CartScreenState extends State<CartScreen> {
           icon: Icon(Icons.arrow_back_ios_new_sharp),
         ),
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Cart',
-          style: GoogleFonts.poppins(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
+        title: Text('Cart'),
         centerTitle: true,
         actions: [
           Container(
@@ -314,7 +308,10 @@ class _CartScreenState extends State<CartScreen> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         hintText: 'Enter Promo Code',
-                        hintStyle: GoogleFonts.lato(color: Colors.grey),
+                        hintStyle: GoogleFonts.lato(
+                          color: Colors.grey,
+                          fontSize: 15,
+                        ),
                         prefixIcon: Icon(
                           Icons.discount_outlined,
                           color: Colors.grey,
@@ -390,14 +387,6 @@ class _CartScreenState extends State<CartScreen> {
                     height: 60,
                     width: 385,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          22,
-                          114,
-                          190,
-                        ),
-                      ),
                       onPressed: () {
                         items.clearCart();
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -409,7 +398,11 @@ class _CartScreenState extends State<CartScreen> {
                       },
                       child: Text(
                         'CheckOut',
-                        style: TextStyle(color: Colors.white, fontSize: 17),
+                        style: GoogleFonts.nunitoSans(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

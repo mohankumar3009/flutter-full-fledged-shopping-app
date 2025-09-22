@@ -12,6 +12,7 @@ class ItemWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     final favProvider = Provider.of<FavoriteProvider>(context);
 
     return Card(
@@ -77,15 +78,7 @@ class ItemWidgets extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Column(
-            children: [
-              Text(
-                item.name,
-                style: GoogleFonts.openSans(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
+            children: [Text(item.name, style: theme.textTheme.bodyMedium)],
           ),
         ],
       ),

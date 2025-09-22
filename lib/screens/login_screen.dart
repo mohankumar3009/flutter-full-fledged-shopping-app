@@ -215,12 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            backgroundColor: const Color.fromARGB(
-                              255,
-                              22,
-                              114,
-                              190,
-                            ),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {

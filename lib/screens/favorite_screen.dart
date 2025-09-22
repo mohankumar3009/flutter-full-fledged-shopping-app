@@ -18,6 +18,7 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     final items = Provider.of<CartProvider>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -25,14 +26,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Favorites',
-          style: GoogleFonts.poppins(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
+        title: Text('Favorites', style: theme.appBarTheme.titleTextStyle),
         centerTitle: true,
       ),
       body: Stack(
@@ -59,126 +53,134 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 );
               }
 
-              return Column(
-                children: [
-                  SizedBox(height: kToolbarHeight + 20),
-                  Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.9,
-                      ),
-                      padding: EdgeInsets.zero,
-                      itemCount: finalList.length,
-                      itemBuilder: (context, index) {
-                        final item = finalList[index];
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: kToolbarHeight + 20),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio:
+                              MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? 0.82
+                              : 1.8,
+                        ),
+                        padding: EdgeInsets.zero,
+                        itemCount: finalList.length,
+                        itemBuilder: (context, index) {
+                          final item = finalList[index];
 
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsScreen(item: item),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailsScreen(item: item),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              margin: EdgeInsets.all(16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                            );
-                          },
-                          child: Card(
-                            color: Colors.white,
-                            margin: EdgeInsets.all(16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            shadowColor: Colors.black87,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(16),
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: item.imageUrl,
-                                    height: 140,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Container(
+                              shadowColor: Colors.black87,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(16),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: item.imageUrl,
                                       height: 140,
                                       width: double.infinity,
-                                      color: Colors.grey,
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Color.fromARGB(
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Container(
+                                        height: 140,
+                                        width: double.infinity,
+                                        color: Colors.grey,
+                                        child: const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Color.fromARGB(
+                                              255,
+                                              22,
+                                              114,
+                                              190,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                            height: 140,
+                                            width: double.infinity,
+                                            color: Colors.grey,
+                                            child: const Icon(
+                                              Icons.broken_image_outlined,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          item.name,
+                                          style: GoogleFonts.lato(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          items.addItem(item);
+
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: (Text(
+                                                "${item.name} Added to cart",
+                                              )),
+                                            ),
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.add_shopping_cart_sharp,
+                                          color: const Color.fromARGB(
                                             255,
                                             22,
                                             114,
                                             190,
                                           ),
+                                          size: 20,
                                         ),
+                                        tooltip: 'Add to cart',
                                       ),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                          height: 140,
-                                          width: double.infinity,
-                                          color: Colors.grey,
-                                          child: const Icon(
-                                            Icons.broken_image_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        item.name,
-                                        style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        items.addItem(item);
-
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: (Text(
-                                              "${item.name} Added to cart",
-                                            )),
-                                          ),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Icons.add_shopping_cart_sharp,
-                                        color: const Color.fromARGB(
-                                          255,
-                                          22,
-                                          114,
-                                          190,
-                                        ),
-                                        size: 20,
-                                      ),
-                                      tooltip: 'Add to cart',
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),

@@ -184,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
 
@@ -299,11 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           'Flash Deals for you',
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
+                          style: theme.textTheme.titleMedium,
                         ),
                         TextButton(
                           onPressed: () {
@@ -317,10 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Text(
                             'See all',
-                            style: GoogleFonts.lato(
-                              color: const Color.fromARGB(255, 22, 114, 190),
-                              fontSize: 15,
-                            ),
+                            style: theme.textTheme.titleSmall,
                           ),
                         ),
                       ],
@@ -370,11 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         '  Most popular',
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
+                        style: theme.textTheme.titleMedium,
                       ),
                       TextButton(
                         onPressed: () {
@@ -388,10 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           'See all      ',
-                          style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 22, 114, 190),
-                            fontSize: 15,
-                          ),
+                          style: theme.textTheme.titleSmall,
                         ),
                       ),
                     ],
@@ -425,14 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        '  Trending',
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
+                      Text('  Trending', style: theme.textTheme.titleMedium),
 
                       TextButton(
                         onPressed: () {
@@ -446,11 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           'See all      ',
-                          style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 22, 114, 190),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          style: theme.textTheme.titleSmall,
                         ),
                       ),
                     ],
@@ -486,14 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        '  Electronics',
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
+                      Text('  Electronics', style: theme.textTheme.titleMedium),
 
                       TextButton(
                         onPressed: () {
@@ -506,11 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           'See all      ',
-                          style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 22, 114, 190),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          style: theme.textTheme.titleSmall,
                         ),
                       ),
                     ],
@@ -546,14 +511,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        '  Fashion',
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
+                      Text('  Fashion', style: theme.textTheme.titleMedium),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -566,11 +524,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           'See all      ',
-                          style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 22, 114, 190),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          style: theme.textTheme.titleSmall,
                         ),
                       ),
                     ],

@@ -16,6 +16,7 @@ class AllProductScreen extends StatefulWidget {
 class _AllProductScreenState extends State<AllProductScreen> {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     final favProvider = FavoriteProvider.of(context);
 
     return Scaffold(
@@ -23,13 +24,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
-          'All Products',
-          style: GoogleFonts.poppins(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text('All Products'),
         centerTitle: true,
       ),
       body: Stack(
@@ -164,10 +159,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                 ),
                                 child: Text(
                                   item.name,
-                                  style: GoogleFonts.lato(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: theme.textTheme.bodyMedium,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

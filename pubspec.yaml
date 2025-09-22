@@ -71,6 +71,9 @@ flutter:
     - assets/login_images/login.png
     - assets/login_images/social_10091663.png
     - assets/account_creation_images/create account.png
+    - assets/forgot_password_images/tiny-people-carrying-key-open-padlock.png
+    - assets/forgot_password_images/illustration-characters-sending-email.png
+    - assets/forgot_password_images/phishing-account-concept.png
   
 
   # An image asset can refer to one or more resolution-specific "variants", see
