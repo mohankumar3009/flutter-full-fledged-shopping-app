@@ -5,6 +5,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       extendBodyBehindAppBar: false,

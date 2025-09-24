@@ -18,6 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final items = Provider.of<CartProvider>(context);
+    // ignore: unused_local_variable
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(

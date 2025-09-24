@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application/screens/login_screen.dart';
@@ -11,6 +16,7 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  //controllers
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -18,6 +24,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _isconfirmPasswordVisible = false;
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  //signup
+  Future<void> signup() async {
+    try {
+      UserCredential usercredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
+
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(usercredential.user!.uid)
+          .set({
+            'name': _nameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'password': _passwordController.text.trim(),
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Account Created Successfully!')));
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? 'Error occured')));
+    }
+  }
 
   @override
   void dispose() {
@@ -183,7 +218,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           controller: _passwordController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return ':Please Enter Your Password';
+                              return 'Please Enter Your Password';
                             } else if (value.length < 8) {
                               return 'Your Password Must Be Atleast 8 Characters';
                             } else if (!RegExp(
@@ -296,15 +331,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                           ),
 
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              debugPrint(
-                                '${_nameController.text} your account created successfully',
-                              );
-                              Navigator.push(
+                              await signup();
+
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (context) => const LoginScreen(),
                                 ),
                               );
                             }

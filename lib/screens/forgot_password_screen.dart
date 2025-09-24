@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application/screens/email_verification_screen.dart';
 import 'package:flutter_application/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,8 +13,38 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  //controllers
   final _formkey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  //forgot password
+
+  Future<void> resetPassword() async {
+    try {
+      QuerySnapshot user = await _firestore
+          .collection('Users')
+          .where('email', isEqualTo: _emailController.text.trim())
+          .get();
+
+      if (user.docs.isEmpty) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('This Email is not registered')));
+        return;
+      }
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: _emailController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password reset email send! check your inbox.')),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error:${e.toString()}')));
+    }
+  }
 
   @override
   void dispose() {
@@ -127,11 +158,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            debugPrint('Email: ${_emailController.text}');
+                            resetPassword();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EmailVerificationScreen(),
+                                builder: (context) => const LoginScreen(),
                               ),
                             );
                           }

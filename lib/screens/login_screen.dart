@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/screens/create_account_screen.dart';
 import 'package:flutter_application/screens/forgot_password_screen.dart';
@@ -5,6 +10,7 @@ import 'package:flutter_application/screens/forgot_password_screen.dart';
 import 'package:flutter_application/screens/home_screen.dart';
 import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,10 +20,66 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //controllers
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   bool _ispasswordVisible = false;
   final _passwordController = TextEditingController();
+
+  //signin
+  Future<void> login(String email, String password) async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text;
+
+    
+    try {
+      // Attempt to sign in with Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      // Fetch user info from Firestore
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userCredential.user!.uid)
+          .get();
+
+      if (!userDoc.exists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User data not found in Firestore')),
+        );
+
+        return;
+      }
+
+      print('User Name: ${userDoc['name']}');
+
+      // Navigate to main screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNav()),
+      );
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase Auth errors
+      String message = '';
+      if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Incorrect password.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Invalid email format.';
+      } else {
+        message = 'Login failed. ${e.message}';
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      // Handle other unexpected errors
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+  }
 
   @override
   void dispose() {
@@ -218,15 +280,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              debugPrint('Email: ${_emailController.text}');
-                              debugPrint(
-                                'Password: ${_passwordController.text}',
-                              );
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BottomNav(),
-                                ),
+                              login(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
                               );
                             }
                           },

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/models/list_model.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/details_screen.dart';
+// ignore: unused_import
 import 'package:google_fonts/google_fonts.dart';
 
 class AllProductScreen extends StatefulWidget {

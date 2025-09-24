@@ -3,14 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/login_screen.dart';
-
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 // ignore: unused_import
 import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
