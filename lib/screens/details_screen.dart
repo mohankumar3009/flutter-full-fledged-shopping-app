@@ -18,7 +18,6 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   int selectedColor = 0;
   int selectedStorage = 1;
-  int quantity = 1;
 
   final List<Color> colorOptions = [
     const Color(0xFFD9C3B2),
@@ -31,10 +30,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartProvider>(context, listen: false);
+    final cart = Provider.of<CartProvider>(context);
     final size = MediaQuery.of(context).size;
     final favprovider = FavoriteProvider.of(context);
-
+    int currentQuantity = cart.getItemQuantity(widget.item);
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.white,
@@ -222,17 +221,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        setState(() {
-                          quantity--;
-                        });
+                        cart.removeItem(widget.item);
                       },
                     ),
-                    Text(
-                      quantity.toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Consumer(
+                      builder: (_, cart, _) {
+                        return Text(
+                          currentQuantity.toString(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
                     ),
                     IconButton(
                       icon: const Icon(
@@ -240,7 +241,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        setState(() => quantity++);
+                        cart.addItem(widget.item);
                       },
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
@@ -10,14 +11,17 @@ import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+Future<void> _backgroundmessaging(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('background message received: ${message.messageId}');
+}
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_backgroundmessaging);
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("FCM Token (main): $token");
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -64,8 +68,6 @@ class MyApp extends StatelessWidget {
             fontSize: 17,
             fontWeight: FontWeight.w600,
           ),
-          
-           
         ),
 
         elevatedButtonTheme: ElevatedButtonThemeData(
