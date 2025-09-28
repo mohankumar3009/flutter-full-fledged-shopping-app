@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
+import 'package:flutter_application/providers/product_provider.dart';
 import 'package:flutter_application/screens/login_screen.dart';
+import 'package:flutter_application/services/notification_service.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 // ignore: unused_import
@@ -11,17 +13,19 @@ import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-Future<void> _backgroundmessaging(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print('background message received: ${message.messageId}');
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(_backgroundmessaging);
   String? token = await FirebaseMessaging.instance.getToken();
   print("FCM Token (main): $token");
+
+  //initialize the local notification
+  NotificationService.initializeNotification();
+
+  //background notification
+  FirebaseMessaging.onBackgroundMessage(
+    NotificationService.firebaseMessagingBackgroundHandler,
+  );
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
     providers: [
       ChangeNotifierProvider(create: (_) => FavoriteProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
+      ChangeNotifierProvider(create: (_) => ProductProvider()),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -65,7 +70,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           bodyMedium: GoogleFonts.openSans(
-            fontSize: 17,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
         ),

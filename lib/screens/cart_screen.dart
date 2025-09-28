@@ -5,7 +5,7 @@ import 'package:flutter_application/screens/details_screen.dart';
 import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application/models/list_model.dart';
+import 'package:flutter_application/models/product_model.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -80,13 +80,13 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.builder(
                 itemCount: items.cartItems.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final Item item = items.cartItems[index];
+                  final Item = items.cartItems[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DetailsScreen(item: item),
+                          builder: (context) => DetailsScreen(product: Item),
                         ),
                       );
                     },
@@ -111,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
                                   bottomLeft: Radius.circular(20),
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: item.imageUrl,
+                                  imageUrl: Item.image,
                                   height: 100,
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => Container(
@@ -146,16 +146,21 @@ class _CartScreenState extends State<CartScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(height: 10),
-                                Text(
-                                  item.name,
-                                  style: GoogleFonts.openSans(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                SizedBox(
+                                  width: 220,
+                                  child: Text(
+                                    Item.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 6),
                                 Text(
-                                  "\$${item.price}".toString(),
+                                  "\$${Item.price}".toString(),
                                   style: GoogleFonts.openSans(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,
@@ -209,7 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
 
                                               onPressed: () {
-                                                items.removeItem(item);
+                                                items.removeItem(Item);
                                               },
                                               child: Icon(
                                                 Icons.remove,
@@ -220,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                           ),
                                           Text(
-                                            "${items.getItemQuantity(item)}",
+                                            "${items.getItemQuantity(Item)}",
                                             style: GoogleFonts.openSans(
                                               fontSize: 19,
                                               fontWeight: FontWeight.bold,
@@ -242,7 +247,7 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
 
                                               onPressed: () {
-                                                items.addItem(item);
+                                                items.addItem(Item);
                                               },
                                               child: Icon(
                                                 Icons.add,
@@ -266,7 +271,7 @@ class _CartScreenState extends State<CartScreen> {
 
                                     IconButton(
                                       onPressed: () {
-                                        items.removeItem(item);
+                                        items.removeItem(Item);
                                       },
                                       icon: Icon(
                                         Icons.delete,

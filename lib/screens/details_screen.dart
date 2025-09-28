@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/list_model.dart';
+import 'package:flutter_application/models/product_model.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/cart_screen.dart';
@@ -8,8 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final Item item;
-  const DetailsScreen({super.key, required this.item});
+  final Product product;
+  const DetailsScreen({super.key, required this.product});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -33,7 +33,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final cart = Provider.of<CartProvider>(context);
     final size = MediaQuery.of(context).size;
     final favprovider = FavoriteProvider.of(context);
-    int currentQuantity = cart.getItemQuantity(widget.item);
+    int currentQuantity = cart.getItemQuantity(widget.product);
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.white,
@@ -48,13 +48,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              favprovider.toggleFavorite(widget.item);
+              favprovider.toggleFavorite(widget.product);
             },
             icon: Icon(
-              favprovider.isExist(widget.item)
+              favprovider.isExist(widget.product)
                   ? Icons.favorite
                   : Icons.favorite_border,
-              color: Colors.red,
+              color: (favprovider.isExist(widget.product)
+                  ? Colors.red
+                  : Colors.black),
             ),
           ),
           const SizedBox(width: 12),
@@ -84,7 +86,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: widget.item.imageUrl,
+                    imageUrl: widget.product.image,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
                       height: size.height * 0.4,
@@ -125,7 +127,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: widget.item.imageUrl,
+                    imageUrl: widget.product.image,
                     width: 76,
                     placeholder: (context, url) => Container(
                       width: 76,
@@ -151,24 +153,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
             const SizedBox(height: 16),
             Text(
-              widget.item.name,
+              widget.product.title,
               style: GoogleFonts.poppins(
-                fontSize: 22,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
             Row(
               children: [
-                (widget.item.category == "mobile" ||
-                        widget.item.category == "electronics")
+                (widget.product.category == "mobile" ||
+                        widget.product.category == "electronics")
                     ? Text(
                         "By ",
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       )
                     : SizedBox.shrink(),
-                (widget.item.category == "mobile" ||
-                        widget.item.category == "electronics")
+                (widget.product.category == "mobile" ||
+                        widget.product.category == "electronics")
                     ? Text(
                         "Apple",
                         style: TextStyle(fontSize: 14, color: Colors.blue),
@@ -194,7 +196,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      "\$${widget.item.price}",
+                      "\$${widget.product.price}",
                       style: GoogleFonts.lato(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -221,7 +223,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        cart.removeItem(widget.item);
+                        cart.removeItem(widget.product);
                       },
                     ),
                     Consumer(
@@ -241,7 +243,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        cart.addItem(widget.item);
+                        cart.addItem(widget.product);
                       },
                     ),
                   ],
@@ -258,8 +260,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? Align(
                     alignment: Alignment.center,
                     child: Wrap(
@@ -350,8 +352,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
 
             const SizedBox(height: 20),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? Text(
                     "Storage",
                     style: GoogleFonts.lato(
@@ -361,8 +363,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   )
                 : SizedBox.shrink(),
             const SizedBox(height: 12),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? Align(
                     alignment: Alignment.center,
                     child: Wrap(
@@ -393,8 +395,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 : SizedBox.shrink(),
 
             const SizedBox(height: 20),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? Text(
                     "A Snapshot View",
                     style: GoogleFonts.lato(
@@ -404,8 +406,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   )
                 : SizedBox.shrink(),
             const SizedBox(height: 8),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? ListTile(
                     dense: true,
                     leading: Icon(Icons.check, color: Colors.green),
@@ -415,8 +417,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   )
                 : SizedBox.shrink(),
-            (widget.item.category == "mobile" ||
-                    widget.item.category == "electronics")
+            (widget.product.category == "mobile" ||
+                    widget.product.category == "electronics")
                 ? ListTile(
                     dense: true,
                     leading: Icon(Icons.check, color: Colors.green),
@@ -469,12 +471,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     onPressed: () {
-                      cart.addItem(widget.item);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text("${widget.item.name} Added to cart"),
+                          content: Text(
+                            "${widget.product.title} Added to cart",
+                          ),
                         ),
                       );
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const CartScreen()),

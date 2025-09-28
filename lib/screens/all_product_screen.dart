@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/list_model.dart';
+import 'package:flutter_application/models/product_model.dart';
 import 'package:flutter_application/providers/favorite_provider.dart';
+import 'package:flutter_application/providers/product_provider.dart';
 import 'package:flutter_application/screens/details_screen.dart';
 // ignore: unused_import
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class AllProductScreen extends StatefulWidget {
-  final List<Item> products; //  Only list of products is needed
+  final List<Product> products; //  Only list of products is needed
   const AllProductScreen({super.key, this.products = const []});
 
   @override
@@ -18,6 +20,8 @@ class _AllProductScreenState extends State<AllProductScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    // ignore: unused_local_variable
+    final productProvider = Provider.of<ProductProvider>(context);
     final favProvider = FavoriteProvider.of(context);
 
     return Scaffold(
@@ -77,7 +81,8 @@ class _AllProductScreenState extends State<AllProductScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailsScreen(item: item),
+                              builder: (context) =>
+                                  DetailsScreen(product: item),
                             ),
                           );
                         },
@@ -99,7 +104,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                       top: Radius.circular(16),
                                     ),
                                     child: CachedNetworkImage(
-                                      imageUrl: item.imageUrl,
+                                      imageUrl: item.image,
                                       height: 130,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
@@ -159,7 +164,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                   horizontal: 8.0,
                                 ),
                                 child: Text(
-                                  item.name,
+                                  item.title,
                                   style: theme.textTheme.bodyMedium,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

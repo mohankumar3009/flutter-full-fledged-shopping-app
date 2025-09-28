@@ -79,7 +79,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailsScreen(item: item),
+                                      DetailsScreen(product: item),
                                 ),
                               );
                             },
@@ -98,7 +98,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       top: Radius.circular(16),
                                     ),
                                     child: CachedNetworkImage(
-                                      imageUrl: item.imageUrl,
+                                      imageUrl: item.image,
                                       height: 140,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
@@ -136,11 +136,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          item.name,
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
+                                        child: SizedBox(
+                                          width: 90,
+                                          child: Text(
+                                            item.title,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: GoogleFonts.lato(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -153,7 +158,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                           ).showSnackBar(
                                             SnackBar(
                                               content: (Text(
-                                                "${item.name} Added to cart",
+                                                "${item.title} Added to cart",
                                               )),
                                             ),
                                           );

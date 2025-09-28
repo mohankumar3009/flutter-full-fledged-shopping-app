@@ -1,11 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/list_model.dart';
+import 'package:flutter_application/models/product_model.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
+import 'package:flutter_application/providers/product_provider.dart';
 import 'package:flutter_application/screens/all_product_screen.dart';
 import 'package:flutter_application/screens/cart_screen.dart';
 import 'package:flutter_application/screens/details_screen.dart';
 import 'package:flutter_application/widgets/card_with_dots.dart';
-// ignore: unused_import
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_application/widgets/item_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,171 +21,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Item> catalog = [
-    Item(
-      name: "Shoes",
-      price: 59.99,
-      imageUrl:
-          "https://images.pexels.com/photos/2237456/pexels-photo-2237456.jpeg",
-      description:
-          "Comfortable running shoes with breathable material and cushioned soles.",
-      category: "Fashion",
-    ),
-    Item(
-      name: "Shirt",
-      price: 29.99,
-      imageUrl:
-          "https://images.pexels.com/photos/26546544/pexels-photo-26546544.jpeg",
-      description: "Casual cotton shirt perfect for everyday wear.",
-      category: "Fashion",
-    ),
-    Item(
-      name: "Watch",
-      price: 99.99,
-      imageUrl:
-          "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?cs=srgb&dl=pexels-joey-nguy%E1%BB%85n-2113994.jpg&fm=jpg",
-      description:
-          "Classic wristwatch with leather strap and waterproof design.",
-      category: "fashion",
-    ),
-    Item(
-      name: "Cap",
-      price: 14.99,
-      imageUrl:
-          "https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg",
-      description: "Stylish baseball cap made from premium cotton.",
-      category: "Fashion",
-    ),
-    Item(
-      name: "Mobile",
-      price: 100.33,
-      imageUrl:
-          "https://images.pexels.com/photos/4549411/pexels-photo-4549411.jpeg",
-      description:
-          "Latest smartphone with HD display and long-lasting battery.",
-      category: "electronics",
-    ),
-    Item(
-      name: "Car",
-      price: 200.33,
-      imageUrl:
-          "https://up.yimg.com/ib/th/id/OIP.-wtRKCICcILF5WqJLjODxgHaED?pid=Api&rs=1&c=1&qlt=95&w=210&h=115",
-      description: "Premium toy car model with detailed design.",
-      category: "transport",
-    ),
-    Item(
-      name: "Bike",
-      price: 150.99,
-      imageUrl:
-          "http://pluspng.com/img-png/png-hd-bike-ktm-rc-390-motorcycle-bike-png-image-1592.png",
-      description: "Sport bike miniature with realistic finish.",
-      category: "transport",
-    ),
-    Item(
-      name: "Laptop",
-      price: 80.99,
-      imageUrl:
-          "https://up.yimg.com/ib/th/id/OIP.-AtwxKY70S2aTwoDs2BL4AHaE8?pid=Api&rs=1&c=1&qlt=95&w=157&h=104",
-      description: "Lightweight laptop ideal for students and professionals.",
-      category: "electronics",
-    ),
-    Item(
-      name: "Coolers",
-      price: 30.45,
-      imageUrl:
-          "https://images.pexels.com/photos/424436/pexels-photo-424436.jpeg",
-      description: "Trendy coolers with UV protection lenses.",
-      category: "fashion",
-    ),
-    Item(
-      name: "Sunglasses",
-      price: 45.99,
-      imageUrl:
-          "https://images.pexels.com/photos/46710/pexels-photo-46710.jpeg?auto=compress&w=120&h=120",
-      description: "Stylish sunglasses with polarized lenses.",
-      category: "wearings",
-    ),
-    Item(
-      name: "Backpack",
-      price: 65.50,
-      imageUrl:
-          "https://sp.yimg.com/ib/th/id/OIP.Penytr3b5P6-5NvVg_myHwHaLG?pid=Api&w=148&h=148&c=7&dpr=2&rs=1",
-      description: "Spacious backpack with multiple compartments.",
-      category: "Needed",
-    ),
-    Item(
-      name: "Headphones",
-      price: 89.99,
-      imageUrl:
-          "https://images.pexels.com/photos/1037992/pexels-photo-1037992.jpeg",
-      description: "Wireless headphones with noise cancellation.",
-      category: "electronics",
-    ),
-    Item(
-      name: "Tablet",
-      price: 120.49,
-      imageUrl:
-          "https://images.pexels.com/photos/3263239/pexels-photo-3263239.jpeg",
-      description: "Portable tablet with high-resolution screen.",
-      category: "electronics",
-    ),
-    Item(
-      name: "Smartwatch",
-      price: 75.99,
-      imageUrl:
-          "https://media.istockphoto.com/id/601925382/photo/using-smart-watch-for-omnichannel.jpg?b=1&s=612x612&w=0&k=20&c=XgIkpMqBUfTbg7VXZql-cuTKrY4ejgZ4FL6EkfeQc-E=",
-      description: "Smartwatch with fitness tracking and notifications.",
-      category: "electronics",
-    ),
-    Item(
-      name: "Camera",
-      price: 199.99,
-      imageUrl:
-          "https://tse1.mm.bing.net/th/id/OIP.47PFr_H8LS33py9fj-qOwQHaE8?pid=Api&P=0&h=180",
-      description: "High-resolution DSLR camera for photography lovers.",
-      category: "electronics",
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
 
-  List<Item> get flashdealsforyou => [
-    catalog[1],
-    catalog[2],
-    catalog[3],
-    catalog[4],
-    catalog[5],
-  ];
-
-  List<Item> get mostPopular => [
-    catalog[12],
-    catalog[13],
-    catalog[11],
-    catalog[8],
-    catalog[7],
-  ];
-
-  List<Item> get trending => [catalog[0], catalog[2], catalog[9], catalog[13]];
-
-  List<Item> get electronics => [
-    catalog[4],
-    catalog[7],
-    catalog[11],
-    catalog[12],
-    catalog[13],
-    catalog[14],
-  ];
-
-  List<Item> get fashion => [
-    catalog[0],
-    catalog[1],
-    catalog[3],
-    catalog[8],
-    catalog[9],
-    catalog[10],
-  ];
+    Future.microtask(
+      () => Provider.of<ProductProvider>(context, listen: false).loadProducts(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
     final ThemeData theme = Theme.of(context);
+
+    if (productProvider.isLoading) {
+      return Scaffold(body: const Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
 
@@ -307,8 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    AllProductScreen(products: catalog),
+                                builder: (context) => AllProductScreen(
+                                  products: productProvider.allproducts,
+                                ),
                               ),
                             );
                           },
@@ -338,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             : 1,
                         childAspectRatio: 1,
                       ),
-                      itemCount: flashdealsforyou.length,
+                      itemCount: productProvider.allproducts.length,
 
                       scrollDirection:
                           MediaQuery.of(context).orientation ==
@@ -349,11 +204,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                DetailsScreen(item: flashdealsforyou[index]),
+                            builder: (context) => DetailsScreen(
+                              product: productProvider.allproducts[index],
+                            ),
                           ),
                         ),
-                        child: ItemWidgets(item: flashdealsforyou[index]),
+                        child: ItemWidgets(
+                          product: productProvider.allproducts[index],
+                        ),
                       ),
                     ),
                   ),
@@ -362,17 +220,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        '  Most popular',
-                        style: theme.textTheme.titleMedium,
-                      ),
+                      Text('  Electronics', style: theme.textTheme.titleMedium),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AllProductScreen(products: catalog),
+                              builder: (context) => AllProductScreen(
+                                products: productProvider.electronics,
+                              ),
                             ),
                           );
                         },
@@ -392,18 +248,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 1,
                         childAspectRatio: 1.1,
                       ),
-                      itemCount: 5,
+                      itemCount: productProvider.electronics.length,
 
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                DetailsScreen(item: mostPopular[index]),
+                            builder: (context) => DetailsScreen(
+                              product: productProvider.electronics[index],
+                            ),
                           ),
                         ),
-                        child: ItemWidgets(item: mostPopular[index]),
+                        child: ItemWidgets(
+                          product: productProvider.electronics[index],
+                        ),
                       ),
                     ),
                   ),
@@ -412,15 +271,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text('  Trending', style: theme.textTheme.titleMedium),
+                      Text('  Jewelery', style: theme.textTheme.titleMedium),
 
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AllProductScreen(products: catalog),
+                              builder: (context) => AllProductScreen(
+                                products: productProvider.jewelery,
+                              ),
                             ),
                           );
                         },
@@ -442,18 +302,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         childAspectRatio: 1.1,
                       ),
                       scrollDirection: Axis.horizontal,
-                      itemCount: trending.length,
+                      itemCount: productProvider.jewelery.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailsScreen(item: trending[index]),
+                              builder: (context) => DetailsScreen(
+                                product: productProvider.jewelery[index],
+                              ),
                             ),
                           );
                         },
-                        child: ItemWidgets(item: trending[index]),
+                        child: ItemWidgets(
+                          product: productProvider.jewelery[index],
+                        ),
                       ),
                     ),
                   ),
@@ -462,14 +325,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text('  Electronics', style: theme.textTheme.titleMedium),
+                      Text(
+                        '  Mens Clothing',
+                        style: theme.textTheme.titleMedium,
+                      ),
 
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AllProductScreen(),
+                              builder: (context) => AllProductScreen(
+                                products: productProvider.mensClothing,
+                              ),
                             ),
                           );
                         },
@@ -491,18 +359,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         childAspectRatio: 1.1,
                       ),
                       scrollDirection: Axis.horizontal,
-                      itemCount: electronics.length,
+                      itemCount: productProvider.mensClothing.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailsScreen(item: electronics[index]),
+                              builder: (context) => DetailsScreen(
+                                product: productProvider.mensClothing[index],
+                              ),
                             ),
                           );
                         },
-                        child: ItemWidgets(item: electronics[index]),
+                        child: ItemWidgets(
+                          product: productProvider.mensClothing[index],
+                        ),
                       ),
                     ),
                   ),
@@ -511,14 +382,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text('  Fashion', style: theme.textTheme.titleMedium),
+                      Text(
+                        '  Womens Clothing',
+                        style: theme.textTheme.titleMedium,
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AllProductScreen(products: catalog),
+                              builder: (context) => AllProductScreen(
+                                products: productProvider.womensClothing,
+                              ),
                             ),
                           );
                         },
@@ -552,18 +427,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               Orientation.portrait
                           ? Axis.vertical
                           : Axis.horizontal,
-                      itemCount: fashion.length,
+                      itemCount: productProvider.womensClothing.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailsScreen(item: fashion[index]),
+                              builder: (context) => DetailsScreen(
+                                product: productProvider.womensClothing[index],
+                              ),
                             ),
                           );
                         },
-                        child: ItemWidgets(item: fashion[index]),
+                        child: ItemWidgets(
+                          product: productProvider.womensClothing[index],
+                        ),
                       ),
                     ),
                   ),
