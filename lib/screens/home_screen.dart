@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/product_model.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/product_provider.dart';
 import 'package:flutter_application/screens/all_product_screen.dart';
@@ -176,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.67,
+                    height: MediaQuery.of(context).size.height * 0.61,
                     width: MediaQuery.of(context).size.width,
                     child: GridView.builder(
                       padding: EdgeInsets.zero,

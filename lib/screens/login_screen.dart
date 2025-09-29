@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_application/screens/forgot_password_screen.dart';
 import 'package:flutter_application/screens/home_screen.dart';
 import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,11 +28,14 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = _emailController.text.trim();
     String password = _passwordController.text;
 
-    
     try {
       // Attempt to sign in with Firebase Auth
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+           //save login state
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLogin', true);
 
       // Fetch user info from Firestore
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -49,6 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       print('User Name: ${userDoc['name']}');
+ 
+     
 
       // Navigate to main screen
       Navigator.pushReplacement(
@@ -76,6 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
+  }
+
+  Future<void> saveLoginState() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setBool('isLoggedIn', true);
   }
 
   @override
@@ -275,7 +285,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: (){
+                           
                             if (_formKey.currentState!.validate()) {
                               login(
                                 _emailController.text.trim(),

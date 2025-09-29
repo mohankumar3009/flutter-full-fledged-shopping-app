@@ -5,7 +5,6 @@ import 'package:flutter_application/screens/details_screen.dart';
 import 'package:flutter_application/widgets/bottom_nav.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application/models/product_model.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
