@@ -150,7 +150,9 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                           favProvider.isExist(item)
                                               ? Icons.favorite
                                               : Icons.favorite_border_sharp,
-                                          color: Colors.white,
+                                          color: (favProvider.isExist(item))
+                                              ? Colors.red
+                                              : Colors.white,
                                           size: 16,
                                         ),
                                       ),

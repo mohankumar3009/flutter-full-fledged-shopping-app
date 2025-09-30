@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/product_model.dart';
-import 'package:flutter_application/providers/cart_provider.dart';
+import 'package:flutter_application/providers/cart_provider.dart' hide Product;
 import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/cart_screen.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -23,6 +23,12 @@ Future<void> main() async {
   // Initialize SharedPreferences safely user is already logged in
   final prefs = await SharedPreferences.getInstance();
   final bool spLogin = prefs.getBool('isLogin') ?? false;
+  // save the cart data to the shared preferences
+  final cartProvider = CartProvider();
+  await cartProvider.loadCartFromPrefs();
+  //save the favorite data to the shared preferences
+  final favoriteProvider = FavoriteProvider();
+  await favoriteProvider.loadFavoritesFromPrefs();
 
   // Initialize local notifications
   NotificationService.initializeNotification();
@@ -103,9 +109,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         // Show BottomNav if logged in, otherwise LoginScreen
-        home: isLogin 
-            ? const BottomNav()
-            : const LoginScreen(),
+        home: isLogin ? const BottomNav() : const LoginScreen(),
       ),
     );
   }

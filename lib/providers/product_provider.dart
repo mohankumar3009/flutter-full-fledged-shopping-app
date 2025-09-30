@@ -18,6 +18,9 @@ class ProductProvider extends ChangeNotifier {
   final ApiServices _apiServices = ApiServices();
 
   Future<void> loadProducts() async {
+    if (_products.isNotEmpty) {
+      return;
+    }
     _isLoading = true;
     notifyListeners();
 

@@ -19,6 +19,7 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': title,
       'price': price,
       'imageUrl': image,
@@ -29,7 +30,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
+      id: json['id'] as int,
       title: json['title'] ?? '',
       price: (json['price'] as num).toDouble(),
       description: json['description'] ?? '',

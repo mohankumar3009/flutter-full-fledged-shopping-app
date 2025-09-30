@@ -56,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       body: Stack(
+        fit: StackFit.expand,
         children: [
           Positioned.fill(
             child: Image.network(
@@ -211,7 +212,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   color: Colors.grey,
                                                 ),
                                               ),
-
+                                      
                                               onPressed: () {
                                                 items.removeItem(Item);
                                               },
@@ -242,9 +243,10 @@ class _CartScreenState extends State<CartScreen> {
                                                 iconColor: Colors.grey,
                                                 iconSize: 15,
                                                 overlayColor: Colors.blue,
-                                                backgroundColor: Colors.white60,
+                                                backgroundColor:
+                                                    Colors.white60,
                                               ),
-
+                                      
                                               onPressed: () {
                                                 items.addItem(Item);
                                               },
