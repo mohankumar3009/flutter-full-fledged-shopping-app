@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/providers/cart_provider.dart';
 import 'package:flutter_application/providers/product_provider.dart';
+import 'package:flutter_application/screens/add_product_screen.dart';
 import 'package:flutter_application/screens/all_product_screen.dart';
 import 'package:flutter_application/screens/cart_screen.dart';
 import 'package:flutter_application/screens/details_screen.dart';
@@ -18,7 +19,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -71,7 +73,12 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               ),
 
               suffixIcon: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddProductScreen()),
+                  );
+                },
                 icon: Icon(Icons.camera_alt_outlined, color: Colors.black),
               ),
             ),

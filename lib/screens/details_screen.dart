@@ -32,7 +32,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
     final size = MediaQuery.of(context).size;
-    final favprovider = FavoriteProvider.of(context);
+    final favprovider = Provider.of<FavoriteProvider>(context);
     int currentQuantity = cart.getItemQuantity(widget.product);
     return Scaffold(
       extendBody: true,

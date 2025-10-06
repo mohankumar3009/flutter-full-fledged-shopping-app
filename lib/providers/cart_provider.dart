@@ -1,7 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/models/product_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -22,6 +24,11 @@ class CartProvider extends ChangeNotifier {
   int getItemQuantity(Product product) => _quantities[product.id] ?? 0;
 
   void _updateCounter() => notifyListeners();
+
+  String get _cartKey {
+    final uid = FirebaseAuth.instance.currentUser?.uid ?? "guest";
+    return "cart_data_$uid";
+  }
 
   Future<void> addItem(Product product) async {
     if (_quantities.containsKey(product.id)) {
@@ -52,7 +59,7 @@ class CartProvider extends ChangeNotifier {
     _quantities.clear();
     _updateCounter();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('cart_data');
+    await prefs.remove(_cartKey);
   }
 
   Future<void> _saveCartToPrefs() async {
@@ -60,12 +67,12 @@ class CartProvider extends ChangeNotifier {
     List<Map<String, dynamic>> cartJson = _cartItems.map((p) {
       return {'product': p.toMap(), 'quantity': _quantities[p.id] ?? 1};
     }).toList();
-    await prefs.setString('cart_data', jsonEncode(cartJson));
+    await prefs.setString(_cartKey, jsonEncode(cartJson));
   }
 
   Future<void> loadCartFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
-    String? data = prefs.getString('cart_data');
+    String? data = prefs.getString(_cartKey);
     if (data == null) return;
 
     List decoded = jsonDecode(data) as List;

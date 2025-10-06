@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// ignore: unused_import
+import 'package:firebase_core/firebase_core.dart'; 
 import 'package:flutter/material.dart';
+import 'package:flutter_application/providers/cart_provider.dart';
+import 'package:flutter_application/providers/favorite_provider.dart';
 import 'package:flutter_application/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+// ignore: unused_import
 import 'package:http/retry.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -16,13 +21,19 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   Future<void> logout() async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final favprovider = Provider.of<FavoriteProvider>(context, listen: false);
     //firebase signout
     await FirebaseAuth.instance.signOut();
+    await cartProvider.clearCart();
+    await favprovider.clearFavorites();
 
     //clear the shared preference storage for logout
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.remove('isLogin');
+      await preferences.reload();
+      print("remaining keys: ${preferences.getKeys()}");
     } catch (_) {}
 
     //redirect to the login page
@@ -219,30 +230,16 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                         ),
                         ListTile(
-                          onTap: () {},
+                          onTap: logout,
                           leading: const Icon(Icons.logout_sharp),
-
-                          title: GestureDetector(
-                            onTap: () {
-                              FirebaseAuth.instance.signOut();
-                              logout();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-
-                            child: Text(
-                              ' Logout',
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                          title: Text(
+                            'Logout',
+                            style: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right_sharp,
                             color: Colors.blue,
                             size: 30,

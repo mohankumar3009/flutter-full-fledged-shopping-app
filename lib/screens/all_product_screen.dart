@@ -22,7 +22,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
     final ThemeData theme = Theme.of(context);
     // ignore: unused_local_variable
     final productProvider = Provider.of<ProductProvider>(context);
-    final favProvider = FavoriteProvider.of(context);
+    final favProvider = Provider.of<FavoriteProvider>(context);
 
     return Scaffold(
       extendBody: true,

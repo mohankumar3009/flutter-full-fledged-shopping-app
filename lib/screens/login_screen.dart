@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
            //save login state
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLogin', true);
-
+ 
       // Fetch user info from Firestore
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('Users')
